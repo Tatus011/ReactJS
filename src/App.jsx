@@ -1,8 +1,25 @@
 import { Routes, Route, Link } from "react-router-dom";
+import { useState } from "react";
 import Team from "./Team";
 import Contact from "./Contact";
+import books from "./Utils/books";
+
 
 function App() {
+  const [bookList, setBookList] = useState(books);
+
+  const handleAddBook = () => {
+    const newBook = {
+      id: bookList.length + 1,
+      title: "Buku Baru",
+      author: "Penulis Baru",
+      year: 2025,
+      description: "Buku ini ditambahkan secara dinamis lewat tombol.",
+      image: "https://picsum.photos/300/200?random=" + bookList.length,
+    };
+    setBookList([...bookList, newBook]);
+  };
+
   return (
     <>
       {/* Header */}
@@ -491,6 +508,47 @@ function App() {
                       </div>
                     </div>
                   </div>
+                </div>
+              </div>
+
+              {/* Tambah Buku + Tampilkan Buku */}
+              <div className="container mb-5">
+                <div className="text-center mb-4">
+                  <button onClick={handleAddBook} className="btn btn-success">
+                    + Tambah Buku
+                  </button>
+                </div>
+
+                <div className="row row-cols-1 row-cols-md-3 g-4">
+                  {bookList.map((book) => (
+                    <div key={book.id} className="col">
+                      <div className="card h-100 shadow-sm">
+                        <img
+                          src={book.image}
+                          className="card-img-top"
+                          alt={book.title}
+                          style={{ height: "200px", objectFit: "cover" }}
+                        />
+                        <div className="card-body">
+                          <h5 className="card-title">{book.title}</h5>
+                          <p className="card-text">{book.description}</p>
+                          <p className="text-muted">
+                            <small>
+                              {book.author} · {book.year}
+                            </small>
+                          </p>
+                          <div className="d-flex justify-content-between">
+                            <button className="btn btn-sm btn-primary">
+                              Detail
+                            </button>
+                            <button className="btn btn-sm btn-outline-primary">
+                              Buy
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
